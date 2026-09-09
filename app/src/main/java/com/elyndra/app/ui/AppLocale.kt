@@ -1,6 +1,9 @@
 package com.elyndra.app.ui
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.LocaleList
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -29,13 +32,13 @@ fun AppLocaleProvider(language: AppLanguage, content: @Composable () -> Unit) {
         return
     }
 
-    val localized = remember(language, configuration) {
+    val localized = remember(context, language, configuration) {
         val locale = Locale.forLanguageTag(language.tag)
         val config = Configuration(configuration).apply {
             setLocales(LocaleList(locale))
             setLayoutDirection(locale)
         }
-        config to context.createConfigurationContext(config)
+        config to LocalizedContext(context, config)
     }
 
     CompositionLocalProvider(
@@ -43,4 +46,21 @@ fun AppLocaleProvider(language: AppLanguage, content: @Composable () -> Unit) {
         LocalContext provides localized.second,
         content = content,
     )
+}
+
+/**
+ * Swaps in localized Resources while keeping the host context as its base.
+ *
+ * The base matters: `hiltViewModel()` walks the [ContextWrapper] chain of
+ * [LocalContext] looking for the Activity to build its factory from, and the
+ * context `createConfigurationContext` hands back is not a wrapper around the
+ * Activity - providing that one directly makes every Hilt-injected screen throw
+ * "Expected activity context for creating a HiltViewModelFactory" on first
+ * composition. Wrapping instead leaves the Activity reachable and changes only
+ * the resources that text is read from.
+ */
+private class LocalizedContext(base: Context, config: Configuration) : ContextWrapper(base) {
+    private val localizedResources: Resources = base.createConfigurationContext(config).resources
+
+    override fun getResources(): Resources = localizedResources
 }
