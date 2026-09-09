@@ -84,6 +84,4 @@ Todas son opcionales y gratuitas; Elyndra funciona sin ninguna, solo que sin car
 
 RetroAchievements se guarda para el futuro seguimiento de logros: su API pública no tiene un endpoint de búsqueda por juego fiable, así que no se usa para carátulas. LaunchBox no puede integrarse: solo publica una descarga masiva `Metadata.zip` para su app de escritorio, sin API de búsqueda.
 
-## Licencia
 
-Sin licencia definida todavía.
