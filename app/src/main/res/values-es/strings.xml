@@ -204,4 +204,14 @@
         <item quantity="one">%1$d app</item>
         <item quantity="other">%1$d apps</item>
     </plurals>
+
+    <!-- Home shell -->
+    <string name="home_shelf_recently_played">Jugados recientemente</string>
+    <string name="home_menu_open_library">Abrir la biblioteca completa</string>
+    <string name="action_more_options">M\u00e1s opciones</string>
+    <string name="action_add_games">A\u00f1adir juegos</string>
+    <string name="status_controller">Mando conectado</string>
+    <string name="status_wifi_on">Wi-Fi conectado</string>
+    <string name="status_wifi_off">Sin conexi\u00f3n</string>
+    <string name="status_battery">Bater\u00eda %1$d%%</string>
 </resources>

@@ -42,7 +42,10 @@ fun ElyndraNavHost() {
     val isCurrent: (Any) -> Boolean = { route ->
         currentDestination?.hierarchy?.any { it.hasRoute(route::class) } == true
     }
-    val showRail = railRoutes.any(isCurrent)
+    // Home is its own full-bleed shell with a dock of its own, so the rail (and
+    // the breathing room every other screen gets) would fight it for the edges.
+    val isHome = isCurrent(Home)
+    val showRail = railRoutes.any(isCurrent) && !isHome
 
     Box(modifier = Modifier.fillMaxSize()) {
         GlassBackdrop(modifier = Modifier.fillMaxSize())
@@ -73,7 +76,7 @@ fun ElyndraNavHost() {
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxSize()
-                    .padding(12.dp),
+                    .padding(if (isHome) 0.dp else 12.dp),
                 enterTransition = {
                     fadeIn(tween(TRANSITION_DURATION_MS)) + scaleIn(
                         initialScale = 0.96f,
@@ -111,6 +114,7 @@ fun ElyndraNavHost() {
                         },
                         onNavigateToScanner = { navController.navigate(Scanner) },
                         onAddAndroidApps = { navController.navigate(PlatformDetail(Constants.ANDROID_PLATFORM_ID)) },
+                        onOpenSettings = { navController.navigate(Settings) },
                     )
                 }
                 composable<Library> { backStackEntry ->
