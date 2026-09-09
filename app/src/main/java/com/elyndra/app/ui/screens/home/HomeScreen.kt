@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
@@ -56,15 +59,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.elyndra.app.R
@@ -82,8 +80,8 @@ private const val MAX_DOTS = 7
 /** Room reserved at the bottom of the column for the floating dock. */
 private val DockSpace = 78.dp
 
-/** Below this the top half stops being able to hold a wordmark worth the name. */
-private val MinTitleArea = 130.dp
+/** Just enough headroom for the status pill and the shelf header, stacked. */
+private val MinTopBand = 124.dp
 
 /**
  * Card sizes derived from the screen rather than fixed.
@@ -97,7 +95,7 @@ private data class RailMetrics(val focused: Dp, val resting: Dp, val slot: Dp) {
 }
 
 private fun railMetricsFor(screenHeight: Dp): RailMetrics {
-    val available = screenHeight - DockSpace - MinTitleArea
+    val available = screenHeight - DockSpace - MinTopBand
     val focused = (available * 0.78f).coerceIn(112.dp, 232.dp)
     return RailMetrics(focused = focused, resting = focused * 0.76f, slot = focused + 24.dp)
 }
@@ -150,10 +148,14 @@ fun HomeScreen(
     val focusedGame = games.getOrNull(centeredIndex ?: 0)
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val screenHeight = maxHeight
         val screenWidth = maxWidth
-        val rail = railMetricsFor(screenHeight)
-        val titleArea = (screenHeight - rail.slot - DockSpace).coerceAtLeast(MinTitleArea)
+        // The art is full-bleed but the controls live inside the system bars, so
+        // the rail has to be sized against the *inset* height. Measuring against
+        // the raw screen overestimates it by the size of those bars, which is
+        // enough to squeeze the shelf header until its text clips.
+        val insets = WindowInsets.safeDrawing.asPaddingValues()
+        val contentHeight = maxHeight - insets.calculateTopPadding() - insets.calculateBottomPadding()
+        val rail = railMetricsFor(contentHeight)
 
         ImmersiveBackground(game = focusedGame)
 
@@ -167,19 +169,6 @@ fun HomeScreen(
                     .weight(1f)
                     .fillMaxWidth(),
             ) {
-                focusedGame?.let { game ->
-                    GiantTitle(
-                        title = game.title,
-                        // Aim for a third of the screen, but never taller than the
-                        // band actually left above the rail.
-                        maxTitleHeight = minOf(screenHeight * 0.32f, titleArea - 46.dp),
-                        maxTitleWidth = screenWidth * 0.78f,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(start = 36.dp, top = 12.dp),
-                    )
-                }
-
                 // One column rather than two independent alignments: on a phone in
                 // landscape the top band is short enough that a top-aligned pill
                 // and a bottom-aligned shelf header would sit on top of each other.
@@ -296,56 +285,6 @@ private fun ImmersiveBackground(game: Game?) {
                 ),
         )
     }
-}
-
-/**
- * The wordmark. Sized to fill [maxTitleHeight], then shrunk until it fits
- * [maxTitleWidth] on a single line - a fixed size would either clip "GRID
- * AUTOSPORT" or leave "GRID" looking undersized.
- */
-@Composable
-private fun GiantTitle(
-    title: String,
-    maxTitleHeight: Dp,
-    maxTitleWidth: Dp,
-    modifier: Modifier = Modifier,
-) {
-    val text = title.uppercase()
-    val measurer = rememberTextMeasurer()
-    val density = LocalDensity.current
-
-    val fontSize = remember(text, maxTitleHeight, maxTitleWidth, density) {
-        val maxWidthPx = with(density) { maxTitleWidth.toPx() }
-        val minSizePx = with(density) { 34.dp.toPx() }
-        var candidate = with(density) { maxTitleHeight.toPx() }
-        while (candidate > minSizePx) {
-            val measured = measurer.measure(
-                text = AnnotatedString(text),
-                style = TextStyle(
-                    fontSize = with(density) { candidate.toSp() },
-                    fontWeight = FontWeight.Black,
-                    letterSpacing = (-0.03).em,
-                ),
-                maxLines = 1,
-                softWrap = false,
-            )
-            if (measured.size.width <= maxWidthPx) break
-            candidate *= 0.92f
-        }
-        with(density) { candidate.coerceAtLeast(minSizePx).toSp() }
-    }
-
-    Text(
-        text = text,
-        color = Color.White,
-        fontSize = fontSize,
-        lineHeight = fontSize * 1.02f,
-        fontWeight = FontWeight.Black,
-        letterSpacing = (-0.03).em,
-        maxLines = 1,
-        softWrap = false,
-        modifier = modifier,
-    )
 }
 
 /** "Recently Played" plus the overflow menu, sitting just above the rail. */
