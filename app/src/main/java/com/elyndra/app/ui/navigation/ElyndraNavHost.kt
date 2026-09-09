@@ -53,12 +53,21 @@ fun ElyndraNavHost() {
         Row(modifier = Modifier.fillMaxSize()) {
             if (showRail) {
                 val navigateTop: (Any) -> Unit = { route ->
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    if (route == Home) {
+                        // Home is the graph's start destination, so reaching it is a
+                        // pop, not a navigate. Navigating would save the popped stack
+                        // under Home's id and then restoreState would hand that very
+                        // stack straight back - tapping Home from Settings landed on
+                        // Settings again, and from Library it landed on Settings too.
+                        navController.popBackStack<Home>(inclusive = false)
+                    } else {
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
                 }
                 GlassSideRail(
@@ -140,7 +149,10 @@ fun ElyndraNavHost() {
                     )
                 }
                 composable<Settings> {
-                    SettingsScreen(onNavigateToScanner = { navController.navigate(Scanner) })
+                    SettingsScreen(
+                        onBack = { navController.popBackStack() },
+                        onNavigateToScanner = { navController.navigate(Scanner) },
+                    )
                 }
                 composable<Scanner> {
                     ScannerScreen(onBack = { navController.popBackStack() })

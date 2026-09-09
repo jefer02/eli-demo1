@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.BrightnessAuto
@@ -145,6 +146,7 @@ private fun AccentColor.labelRes(): Int = when (this) {
 
 @Composable
 fun SettingsScreen(
+    onBack: () -> Unit,
     onNavigateToScanner: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
@@ -177,12 +179,32 @@ fun SettingsScreen(
                     .fillMaxHeight()
                     .padding(20.dp),
             ) {
-                Text(
-                    text = stringResource(R.string.settings_title),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(bottom = 20.dp),
+                ) {
+                    LiquidGlassSurface(
+                        shape = CircleShape,
+                        style = GlassMaterials.thin,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable(onClick = onBack),
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.action_back),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(20.dp),
+                        )
+                    }
+                    Text(
+                        text = stringResource(R.string.settings_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .weight(1f)
