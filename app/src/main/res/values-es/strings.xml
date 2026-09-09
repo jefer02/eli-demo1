@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation rail -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_library">Biblioteca</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <!-- Settings shell -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_personalization">Personalización</string>
+    <string name="settings_personalization_desc">Haz que Elyndra sea tuyo</string>
+    <string name="settings_rom_folders">Carpetas de ROMs</string>
+    <string name="settings_rom_folders_desc">Dónde viven tus juegos</string>
+    <string name="settings_emulators">Emuladores</string>
+    <string name="settings_emulators_desc">Elige una app por plataforma</string>
+    <string name="settings_scraping">Scraping</string>
+    <string name="settings_scraping_desc">Carátulas, arte y descripciones</string>
+    <string name="settings_integrations">Integraciones</string>
+    <string name="settings_integrations_desc">Conecta fuentes de metadatos</string>
+    <string name="settings_about">Acerca de Elyndra</string>
+    <string name="settings_about_desc">Versión y créditos</string>
+
+    <!-- Personalization -->
+    <string name="pref_theme">Tema</string>
+    <string name="pref_theme_desc">Elige claro, oscuro o seguir al sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Sistema</string>
+    <string name="pref_accent">Color de acento</string>
+    <string name="pref_accent_desc">Tiñe botones, resaltados y la selección</string>
+    <string name="accent_coral">Coral</string>
+    <string name="accent_amber">Ámbar</string>
+    <string name="accent_lime">Lima</string>
+    <string name="accent_emerald">Esmeralda</string>
+    <string name="accent_sky">Cielo</string>
+    <string name="accent_indigo">Índigo</string>
+    <string name="accent_violet">Violeta</string>
+    <string name="accent_magenta">Magenta</string>
+    <string name="accent_slate">Pizarra</string>
+    <string name="pref_language">Idioma</string>
+    <string name="pref_language_desc">Elige el idioma de la app</string>
+    <string name="language_system">Predeterminado del sistema</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="pref_grid_columns">Columnas de la cuadrícula</string>
+    <string name="pref_grid_columns_desc">Cuántas carátulas caben a lo ancho</string>
+    <string name="pref_show_hidden">Mostrar juegos ocultos</string>
+    <string name="pref_show_hidden_desc">Inclúyelos en la biblioteca</string>
+
+    <!-- ROM folders -->
+    <string name="rom_folders_empty">Aún no hay carpetas</string>
+    <string name="rom_folders_empty_desc">Añade una para empezar a escanear</string>
+    <string name="action_add_folder">Añadir carpeta</string>
+    <string name="action_scan_now">Escanear ahora</string>
+    <string name="action_remove_folder">Quitar carpeta</string>
+    <string name="action_change">Cambiar</string>
+    <string name="action_save">Guardar</string>
+    <string name="emulator_not_configured">Sin configurar</string>
+
+    <!-- Scraping -->
+    <string name="scraping_sources">Fuentes de metadatos</string>
+    <string name="scraping_sources_none">Ninguna configurada - abre Integraciones para añadir una</string>
+    <string name="scraping_auto">Scraping automático de juegos nuevos</string>
+    <string name="scraping_auto_desc">Se ejecuta justo después de un escaneo</string>
+    <string name="scraping_rescrape">Rescanear toda la biblioteca</string>
+
+    <!-- Integrations -->
+    <string name="integration_connected">Conectado</string>
+    <string name="integration_not_connected">Sin conectar</string>
+    <string name="field_dev_id">Dev ID</string>
+    <string name="field_dev_password">Contraseña de desarrollador</string>
+    <string name="field_software_name">Nombre del software</string>
+    <string name="field_ss_user">Tu usuario de screenscraper.fr (opcional)</string>
+    <string name="field_ss_password">Tu contraseña de screenscraper.fr (opcional)</string>
+    <string name="field_client_id">Client ID</string>
+    <string name="field_client_secret">Client secret</string>
+    <string name="field_api_key">Clave de API</string>
+    <string name="field_username">Usuario</string>
+    <string name="integration_screenscraper_desc">Carátulas, fanart y descripciones retro emparejadas por hash</string>
+    <string name="integration_screenscraper_help">Necesita un par devid/devpassword registrado como \"software\" en screenscraper.fr. Tu cuenta personal de abajo es opcional y amplía tu cuota diaria.</string>
+    <string name="integration_igdb_desc">Base de datos general de juegos - carátulas, capturas, resúmenes</string>
+    <string name="integration_igdb_help">Crea una app gratuita en dev.twitch.tv/console/apps para obtener un Client ID y un Client Secret - IGDB se autentica a través de Twitch.</string>
+    <string name="integration_steamgriddb_desc">Grids y arte de la comunidad - solo carátulas y fondos</string>
+    <string name="integration_steamgriddb_help">Consigue una clave de API gratuita en steamgriddb.com/profile/preferences/api.</string>
+    <string name="integration_retroachievements_desc">Enlace de cuenta para logros - todavía no se usa para carátulas</string>
+    <string name="integration_retroachievements_help">Encuentra tu clave de API en retroachievements.org/settings. Elyndra la guarda para el seguimiento de logros futuro; la API pública no tiene un endpoint de búsqueda por juego fiable, así que esta fuente no se usa para carátulas ni fondos automáticos.</string>
+    <string name="integration_launchbox_desc">No disponible como integración en vivo</string>
+    <string name="integration_launchbox_help">LaunchBox Games Database no publica una API de búsqueda pública - solo una descarga masiva sin conexión Metadata.zip pensada para la propia app de escritorio de LaunchBox. No hay usuario ni clave de API que permita a Elyndra consultarla por juego, así que no puede conectarse aquí como fuente de scraping.</string>
+
+    <!-- About -->
+    <string name="about_version">Versión %1$s</string>
+    <string name="about_body">Una biblioteca de ROMs y lanzador de emuladores. Los juegos se ejecutan con emuladores ya instalados en este dispositivo - Elyndra nunca incluye ni descarga binarios de emuladores.</string>
+
+    <!-- Home -->
+    <string name="home_empty_title">Tu biblioteca est\u00e1 vac\u00eda</string>
+    <string name="home_empty_subtitle">Escanea una carpeta para importar tus ROMs y empezar a jugar.</string>
+    <string name="home_scan_roms">Escanear ROMs</string>
+    <string name="home_add_android_apps">A\u00f1adir apps de Android</string>
+    <string name="section_continue_playing">Seguir jugando</string>
+    <string name="section_recently_added">A\u00f1adidos recientemente</string>
+    <string name="section_platforms">Plataformas</string>
+    <string name="section_apps">Apps</string>
+    <string name="section_games">Juegos</string>
+    <string name="action_see_all">Ver todo</string>
+
+    <!-- Library -->
+    <string name="library_title">Biblioteca</string>
+    <string name="library_toggle_view">Cambiar vista</string>
+    <string name="filter_favorites">Favoritos</string>
+    <string name="filter_all">Todos</string>
+    <string name="library_empty_title">No se encontraron juegos</string>
+    <string name="library_empty_subtitle">Prueba otra b\u00fasqueda o filtro, o escanea una carpeta de ROMs desde Ajustes.</string>
+    <string name="search_games_placeholder">Buscar juegos</string>
+    <string name="action_clear_search">Borrar b\u00fasqueda</string>
+    <string name="action_favorite">Favorito</string>
+
+    <!-- Game detail -->
+    <string name="action_back">Atr\u00e1s</string>
+    <string name="action_toggle_favorite">Marcar como favorito</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="stat_playtime">Tiempo jugado</string>
+    <string name="stat_last_played">\u00daltima vez</string>
+    <string name="stat_size">Tama\u00f1o</string>
+    <string name="action_play">Jugar</string>
+    <string name="action_rescrape">Volver a obtener metadatos</string>
+    <string name="delete_dialog_title">\u00bfQuitar de la biblioteca?</string>
+    <string name="delete_dialog_body">Esto solo quita la entrada de Elyndra. El archivo de la ROM no se elimina.</string>
+    <string name="action_remove">Quitar</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Edit game -->
+    <string name="edit_game_title">Editar juego</string>
+    <string name="field_title">T\u00edtulo</string>
+    <string name="field_platform">Plataforma</string>
+    <string name="action_set_cover">Poner car\u00e1tula</string>
+    <string name="action_change_cover">Cambiar car\u00e1tula</string>
+    <string name="action_set_background">Poner fondo</string>
+    <string name="action_change_background">Cambiar fondo</string>
+    <string name="edit_hidden">Oculto en la biblioteca</string>
+
+    <!-- Platform detail -->
+    <string name="platform_empty_apps_title">A\u00fan no hay apps</string>
+    <string name="platform_empty_apps_subtitle">A\u00f1ade apps instaladas para lanzarlas desde Elyndra.</string>
+    <string name="platform_empty_games_title">A\u00fan no hay juegos aqu\u00ed</string>
+    <string name="platform_empty_games_subtitle">Escanea una carpeta para importar ROMs de esta plataforma.</string>
+    <string name="action_add_apps">A\u00f1adir apps</string>
+    <string name="action_emulator">Emulador</string>
+    <string name="add_apps_dialog_title">A\u00f1adir apps de Android</string>
+    <string name="add_apps_search">Buscar apps instaladas</string>
+    <string name="add_apps_none">No hay apps que coincidan.</string>
+    <string name="state_added">A\u00f1adida</string>
+    <string name="action_add">A\u00f1adir</string>
+    <string name="action_done">Listo</string>
+    <string name="sort_name">Nombre</string>
+    <string name="sort_date_added">Fecha de adici\u00f3n</string>
+    <string name="sort_last_played">\u00daltima vez jugado</string>
+    <string name="sort_playtime">Tiempo jugado</string>
+
+    <!-- Scanner -->
+    <string name="scanner_title">Escanear ROMs</string>
+    <string name="scanner_empty_title">A\u00fan no hay carpetas de ROMs</string>
+    <string name="scanner_empty_subtitle">Elige una carpeta que contenga tus ROMs. Elyndra la escanea (y sus subcarpetas) de forma recursiva.</string>
+    <string name="action_choose_folder">Elegir carpeta</string>
+    <string name="action_add_another_folder">A\u00f1adir otra carpeta</string>
+    <string name="action_start_scan">Iniciar escaneo</string>
+    <string name="scanner_progress">Escaneando %1$s \u00b7 %2$d archivos encontrados</string>
+    <string name="scanner_fetching_metadata">Obteniendo metadatos de los juegos nuevos\u2026</string>
+    <string name="scanner_complete">Escaneo completado</string>
+    <string name="scanner_files_scanned">%1$d archivos escaneados</string>
+    <string name="scanner_games_added">%1$d juegos a\u00f1adidos</string>
+    <string name="scanner_games_updated">%1$d juegos actualizados</string>
+    <string name="scanner_unrecognized">%1$d archivos no reconocidos (extensi\u00f3n no compatible en una carpeta sin nombre)</string>
+
+    <!-- Emulator picker -->
+    <string name="emulator_dialog_title">Emulador para %1$s</string>
+    <string name="emulator_none_detected">No se detect\u00f3 ning\u00fan emulador conocido. Instala uno (por ejemplo RetroArch) o escribe abajo un nombre de paquete.</string>
+    <string name="emulator_manual_package">\u00bfNo aparece? Escribe su nombre de paquete directamente:</string>
+    <string name="action_use">Usar</string>
+    <string name="action_clear">Quitar</string>
+    <string name="action_close">Cerrar</string>
+
+    <!-- Formatting -->
+    <string name="playtime_never">Nunca jugado</string>
+    <string name="playtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="playtime_minutes">%1$dm</string>
+    <string name="playtime_under_minute">&lt;1m</string>
+
+    <!-- Launch / scrape feedback -->
+    <string name="launch_error_no_emulator">A\u00fan no hay emulador configurado para %1$s - elige uno en Ajustes.</string>
+    <string name="launch_error_not_installed">Emulador no instalado: %1$s</string>
+    <string name="launch_error_failed">Fallo al iniciar: %1$s</string>
+    <string name="scrape_updated">Metadatos actualizados.</string>
+    <string name="scrape_not_found">No se encontr\u00f3 coincidencia en ninguna fuente configurada.</string>
+    <string name="scrape_missing_credentials">A\u00f1ade credenciales en Ajustes &gt; Integraciones primero.</string>
+    <string name="scrape_failed">Fallo al obtener metadatos: %1$s</string>
+    <string name="rescrape_progress">%1$d/%2$d obtenidos \u00b7 %3$d sin coincidencia \u00b7 %4$d fallidos</string>
+
+    <plurals name="game_count">
+        <item quantity="one">%1$d juego</item>
+        <item quantity="other">%1$d juegos</item>
+    </plurals>
+    <plurals name="app_count">
+        <item quantity="one">%1$d app</item>
+        <item quantity="other">%1$d apps</item>
+    </plurals>
+</resources>

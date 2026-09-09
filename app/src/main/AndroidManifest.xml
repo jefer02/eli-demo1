@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--
+      Package visibility (Android 11+): needed so Settings can list installed
+      emulators for the user to pick from. This is NOT required to actually
+      launch an emulator by explicit package/activity name (see EmulatorLauncher) -
+      only to enumerate candidates in the picker UI. Extend this list as new
+      emulators are supported; unlisted emulators still work via manual entry.
+    -->
+    <queries>
+        <package android:name="com.retroarch" />
+        <package android:name="com.retroarch.aarch64" />
+        <package android:name="com.retroarch.ra32" />
+        <package android:name="org.dolphinemu.dolphinemu" />
+        <package android:name="com.github.stenzek.duckstation" />
+        <package android:name="org.ppsspp.ppsspp" />
+        <package android:name="org.ppsspp.ppssppgold" />
+        <package android:name="org.citra.citra_emu" />
+        <package android:name="io.github.lime3ds.android" />
+        <package android:name="me.magnum.melonds" />
+        <package android:name="com.aeonlucid.drastic" />
+        <package android:name="com.dpad.drastic" />
+        <package android:name="org.yabause.android" />
+        <package android:name="jp.gamba.yabasanshiro" />
+        <package android:name="org.mupen64plusae.v3.fzurita" />
+        <package android:name="com.emulator.aeteroplus" />
+        <package android:name="com.explusalpha.Vita3KAndroid" />
+        <package android:name="com.aethersx2.android" />
+        <package android:name="xyz.aethersx2.android" />
+        <package android:name="skyline.emu" />
+        <package android:name="org.stenzek.duckstation" />
+        <package android:name="com.fms.gba" />
+        <package android:name="com.fms.gbc" />
+        <package android:name="com.fms.nes" />
+        <package android:name="com.fms.snes" />
+        <package android:name="com.jenrik.n64" />
+        <package android:name="com.jenrik.psx" />
+        <package android:name="app.eden.emulator" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="content" />
+        </intent>
+        <!-- Lets the "Add Android app" picker enumerate every launchable app on the device. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".ElyndraApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Elyndra"
+        tools:targetApi="34">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:theme="@style/Theme.Elyndra">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

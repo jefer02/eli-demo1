@@ -1,0 +1,30 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/app/build
+/app/release
+*.hprof
+
+# Android Studio / IntelliJ - project-local IDE state, not part of the build
+/.idea/
+.kotlin/
+
+# Tooling scratch directories
+/.claude/
+/.github/modernize/
+
+# Build outputs
+*.apk
+*.aab

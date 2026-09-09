@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The Room library (games, favorites, playtime) is small and worth restoring,
+  so it is intentionally NOT excluded here. Only transient/cache data is.
+-->
+<full-backup-content>
+    <exclude domain="database" path="elyndra.db-wal" />
+    <exclude domain="database" path="elyndra.db-shm" />
+</full-backup-content>

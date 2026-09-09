@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bare pre-Compose window theme; all real theming (color scheme, dark
+         mode, dynamic color) is applied at runtime in ui/theme/Theme.kt. -->
+    <style name="Theme.Elyndra" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/elyndra_background_light</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
