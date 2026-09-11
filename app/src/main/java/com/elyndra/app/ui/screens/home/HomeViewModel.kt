@@ -3,6 +3,8 @@ package com.elyndra.app.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elyndra.app.domain.model.Game
+import com.elyndra.app.domain.model.Platform
+import com.elyndra.app.domain.repository.GameLauncherRepository
 import com.elyndra.app.domain.repository.GameRepository
 import com.elyndra.app.domain.repository.PlatformRepository
 import com.elyndra.app.util.Constants
@@ -14,52 +16,95 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private const val SHELF_SIZE = 20
+/** The parts of home state the user drives, kept apart from what the library reports. */
+private data class HomeSelection(
+    val filter: LibraryFilter = LibraryFilter.ALL,
+    val query: String = "",
+    val isSearchOpen: Boolean = false,
+    val selectedKey: String? = null,
+)
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     gameRepository: GameRepository,
     platformRepository: PlatformRepository,
+    private val launcherRepository: GameLauncherRepository,
 ) : ViewModel() {
 
-    private val shelf = MutableStateFlow(HomeShelf.RECENTLY_PLAYED)
+    private val selection = MutableStateFlow(HomeSelection())
 
     val uiState: StateFlow<HomeUiState> = combine(
         gameRepository.observeGames(includeHidden = false),
         platformRepository.observePlatforms(),
-        shelf,
-    ) { games, platforms, selectedShelf ->
+        selection,
+    ) { games, platforms, sel ->
+        val entries = buildEntries(games, platforms)
+            .filter { it.matches(sel.filter) }
+            .filter { sel.query.isBlank() || it.name.contains(sel.query, ignoreCase = true) }
+            .sortedBy { it.name.lowercase() }
+
         HomeUiState(
-            shelf = selectedShelf,
-            games = games.forShelf(selectedShelf),
-            platformSummaries = platforms.mapNotNull { platform ->
-                val platformGames = games.filter { it.platformId == platform.id }
-                // The Android platform is never populated by scanning, only by the
-                // "Add apps" picker inside it - always show it so there's a way in.
-                val alwaysShow = platform.id == Constants.ANDROID_PLATFORM_ID
-                if (platformGames.isEmpty() && !alwaysShow) return@mapNotNull null
-                val cover = platformGames.firstOrNull { !it.coverImagePath.isNullOrBlank() }?.coverImagePath
-                PlatformSummary(platform, platformGames.size, cover)
-            },
+            filter = sel.filter,
+            query = sel.query,
+            isSearchOpen = sel.isSearchOpen,
+            entries = entries,
+            selectedKey = sel.selectedKey,
             isLoading = false,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
-    fun onShelfChange(newShelf: HomeShelf) {
-        shelf.value = newShelf
+    fun onFilterChange(filter: LibraryFilter) {
+        selection.value = selection.value.copy(filter = filter)
+    }
+
+    fun onQueryChange(query: String) {
+        selection.value = selection.value.copy(query = query)
+    }
+
+    /** Closing search clears the query too, so a hidden filter can't keep the rail short. */
+    fun onToggleSearch() {
+        val current = selection.value
+        selection.value = current.copy(
+            isSearchOpen = !current.isSearchOpen,
+            query = if (current.isSearchOpen) "" else current.query,
+        )
+    }
+
+    fun onSelect(key: String) {
+        selection.value = selection.value.copy(selectedKey = key)
     }
 
     /**
-     * "Recently played" falls back to the newest games when nothing has been
-     * launched yet - an empty carousel on first run would leave the home shell
-     * with no art and no title to show.
+     * Builds the unified rail: one card per platform that actually holds ROMs,
+     * plus one card per installed Android game.
+     *
+     * The Android platform never appears as a folder - its games are the cards -
+     * so it is skipped on the console side rather than showing up empty.
      */
-    private fun List<Game>.forShelf(shelf: HomeShelf): List<Game> = when (shelf) {
-        HomeShelf.RECENTLY_PLAYED -> filter { it.lastPlayedAt != null }
-            .sortedByDescending { it.lastPlayedAt }
-            .ifEmpty { sortedByDescending { it.dateAdded } }
+    private fun buildEntries(games: List<Game>, platforms: List<Platform>): List<LibraryEntry> {
+        val emulatorLabels = launcherRepository.getInstalledCandidateEmulators()
+            .associate { it.packageName to it.label }
 
-        HomeShelf.RECENTLY_ADDED -> sortedByDescending { it.dateAdded }
-        HomeShelf.FAVORITES -> filter { it.isFavorite }.sortedBy { it.title }
-    }.take(SHELF_SIZE)
+        val consoles = platforms.mapNotNull { platform ->
+            if (platform.id == Constants.ANDROID_PLATFORM_ID) return@mapNotNull null
+            val platformGames = games.filter { it.platformId == platform.id }
+            if (platformGames.isEmpty()) return@mapNotNull null
+            LibraryEntry.ConsoleFolder(
+                platform = platform,
+                romCount = platformGames.size,
+                emulatorName = platform.emulatorPackageName?.let { emulatorLabels[it] ?: it },
+                coverPath = platformGames.firstNotNullOfOrNull { it.coverImagePath },
+            )
+        }
+
+        val apps = games.filter { it.isNativeApp }.map(LibraryEntry::AndroidApp)
+
+        return consoles + apps
+    }
+
+    private fun LibraryEntry.matches(filter: LibraryFilter): Boolean = when (filter) {
+        LibraryFilter.ALL -> true
+        LibraryFilter.ANDROID -> this is LibraryEntry.AndroidApp
+        LibraryFilter.CONSOLES -> this is LibraryEntry.ConsoleFolder
+    }
 }

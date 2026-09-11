@@ -21,10 +21,7 @@ fun ElyndraApp(viewModel: AppViewModel = hiltViewModel()) {
     val preferences by viewModel.preferences.collectAsState()
 
     AppLocaleProvider(language = preferences.language) {
-        ElyndraTheme(
-            themeMode = preferences.themeMode,
-            accentColor = preferences.accentColor,
-        ) {
+        ElyndraTheme(preferences = preferences) {
             ElyndraNavHost()
         }
     }

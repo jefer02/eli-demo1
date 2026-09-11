@@ -28,15 +28,6 @@
     <string name="theme_system">Sistema</string>
     <string name="pref_accent">Color de acento</string>
     <string name="pref_accent_desc">Tiñe botones, resaltados y la selección</string>
-    <string name="accent_coral">Coral</string>
-    <string name="accent_amber">Ámbar</string>
-    <string name="accent_lime">Lima</string>
-    <string name="accent_emerald">Esmeralda</string>
-    <string name="accent_sky">Cielo</string>
-    <string name="accent_indigo">Índigo</string>
-    <string name="accent_violet">Violeta</string>
-    <string name="accent_magenta">Magenta</string>
-    <string name="accent_slate">Pizarra</string>
     <string name="pref_language">Idioma</string>
     <string name="pref_language_desc">Elige el idioma de la app</string>
     <string name="language_system">Predeterminado del sistema</string>
@@ -214,4 +205,17 @@
     <string name="status_wifi_on">Wi-Fi conectado</string>
     <string name="status_wifi_off">Sin conexi\u00f3n</string>
     <string name="status_battery">Bater\u00eda %1$d%%</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_open">Abrir</string>
+    <string name="home_add_games">Añadir juegos o ROMs</string>
+    <string name="home_tap_hint">UN TOQUE SELECCIONA · DOBLE TOQUE ABRE</string>
+    <string name="home_item_count">%1$d elementos</string>
+    <string name="library_filter_all">Todo</string>
+    <string name="library_filter_android">Android</string>
+    <string name="library_filter_consoles">Consolas</string>
+    <string name="entry_kind_folder">CARPETA DE EMULADOR</string>
+    <string name="entry_kind_android_app">APP ANDROID</string>
+    <string name="entry_kind_empty">BIBLIOTECA VACÍA</string>
+    <string name="entry_rom_count">%1$d ROMS</string>
+    <string name="assistant_initial">L</string>
 </resources>

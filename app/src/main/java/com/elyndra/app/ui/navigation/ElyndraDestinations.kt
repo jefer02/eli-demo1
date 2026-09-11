@@ -26,6 +26,10 @@ data class GameDetail(val gameId: Long)
 @Serializable
 data object Settings
 
+/** Lucy: the library assistant. Reached from the dock's pulsing button on Home. */
+@Serializable
+data object Assistant
+
 /** ROM-folder picking + scan progress. Reached from Home's empty state or Settings. */
 @Serializable
 data object Scanner

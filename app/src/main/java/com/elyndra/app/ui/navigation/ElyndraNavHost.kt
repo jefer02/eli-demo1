@@ -21,7 +21,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.elyndra.app.ui.components.glass.GlassBackdrop
+import com.elyndra.app.ui.components.glass.AuroraBackdrop
+import com.elyndra.app.ui.screens.assistant.AssistantScreen
 import com.elyndra.app.ui.screens.gamedetail.GameDetailScreen
 import com.elyndra.app.ui.screens.home.HomeScreen
 import com.elyndra.app.ui.screens.library.LibraryScreen
@@ -48,7 +49,7 @@ fun ElyndraNavHost() {
     val showRail = railRoutes.any(isCurrent) && !isHome
 
     Box(modifier = Modifier.fillMaxSize()) {
-        GlassBackdrop(modifier = Modifier.fillMaxSize())
+        AuroraBackdrop(modifier = Modifier.fillMaxSize())
 
         Row(modifier = Modifier.fillMaxSize()) {
             if (showRail) {
@@ -113,16 +114,10 @@ fun ElyndraNavHost() {
             ) {
                 composable<Home> {
                     HomeScreen(
-                        onGameClick = { gameId -> navController.navigate(GameDetail(gameId)) },
-                        onSeeAllPlatform = { platformId ->
-                            if (platformId == null) {
-                                navController.navigate(Library())
-                            } else {
-                                navController.navigate(PlatformDetail(platformId))
-                            }
-                        },
-                        onNavigateToScanner = { navController.navigate(Scanner) },
-                        onAddAndroidApps = { navController.navigate(PlatformDetail(Constants.ANDROID_PLATFORM_ID)) },
+                        onOpenFolder = { platformId -> navController.navigate(PlatformDetail(platformId)) },
+                        onLaunchApp = { gameId -> navController.navigate(GameDetail(gameId)) },
+                        onAddGames = { navController.navigate(Scanner) },
+                        onOpenAssistant = { navController.navigate(Assistant) },
                         onOpenSettings = { navController.navigate(Settings) },
                     )
                 }
@@ -153,6 +148,9 @@ fun ElyndraNavHost() {
                         onBack = { navController.popBackStack() },
                         onNavigateToScanner = { navController.navigate(Scanner) },
                     )
+                }
+                composable<Assistant> {
+                    AssistantScreen(onBack = { navController.popBackStack() })
                 }
                 composable<Scanner> {
                     ScannerScreen(onBack = { navController.popBackStack() })

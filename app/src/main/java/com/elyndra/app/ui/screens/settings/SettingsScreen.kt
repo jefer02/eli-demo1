@@ -133,15 +133,16 @@ private fun AppLanguage.labelRes(): Int = when (this) {
 
 @StringRes
 private fun AccentColor.labelRes(): Int = when (this) {
+    AccentColor.MANDARINA -> R.string.accent_mandarina
+    AccentColor.FUEGO -> R.string.accent_fuego
+    AccentColor.MENTA -> R.string.accent_menta
+    AccentColor.COBALTO -> R.string.accent_cobalto
+    AccentColor.LILA -> R.string.accent_lila
     AccentColor.CORAL -> R.string.accent_coral
-    AccentColor.AMBER -> R.string.accent_amber
-    AccentColor.LIME -> R.string.accent_lime
-    AccentColor.EMERALD -> R.string.accent_emerald
-    AccentColor.SKY -> R.string.accent_sky
-    AccentColor.INDIGO -> R.string.accent_indigo
-    AccentColor.VIOLET -> R.string.accent_violet
-    AccentColor.MAGENTA -> R.string.accent_magenta
-    AccentColor.SLATE -> R.string.accent_slate
+    AccentColor.TURQUESA -> R.string.accent_turquesa
+    AccentColor.ORO -> R.string.accent_oro
+    AccentColor.CHICLE -> R.string.accent_chicle
+    AccentColor.GRAFITO -> R.string.accent_grafito
 }
 
 @Composable
@@ -532,7 +533,7 @@ private fun AccentSwatchRow(selected: AccentColor, onSelect: (AccentColor) -> Un
                     Icon(
                         imageVector = Icons.Filled.Check,
                         contentDescription = stringResource(accent.labelRes()),
-                        tint = palette.onPrimary,
+                        tint = palette.onAccent,
                         modifier = Modifier.size(20.dp),
                     )
                 }

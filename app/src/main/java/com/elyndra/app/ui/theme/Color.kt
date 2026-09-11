@@ -2,42 +2,65 @@ package com.elyndra.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Elyndra brand palette - violet primary, teal accent. Swap freely; nothing
-// elsewhere in the app depends on these exact values beyond Theme.kt.
-val ElyndraVioletPrimary = Color(0xFF7C5CFF)
-val ElyndraVioletOnPrimary = Color(0xFFFFFFFF)
-val ElyndraVioletPrimaryContainer = Color(0xFFE6DEFF)
-val ElyndraVioletOnPrimaryContainer = Color(0xFF23005C)
+/*
+ * The shell's fixed palette. Only these four tones are accent-independent:
+ * everything else in the UI is painted from the chosen AccentPalette, so
+ * swapping an accent never has to touch a surface color.
+ */
 
-val ElyndraTealSecondary = Color(0xFF00A896)
-val ElyndraTealOnSecondary = Color(0xFFFFFFFF)
-val ElyndraTealSecondaryContainer = Color(0xFF9CF3E4)
-val ElyndraTealOnSecondaryContainer = Color(0xFF00201C)
+/** The canvas the whole app sits on - a barely-warm off-white. */
+val ElyndraPaper = Color(0xFFF6F8F9)
 
-val ElyndraCoralTertiary = Color(0xFFFF8A65)
-val ElyndraCoralOnTertiary = Color(0xFF4A1500)
-val ElyndraCoralTertiaryContainer = Color(0xFFFFDBCC)
-val ElyndraCoralOnTertiaryContainer = Color(0xFF321000)
+/** Primary type and icons. Deliberately not pure black; the shell has no true black. */
+val ElyndraInk = Color(0xFF333333)
+
+/** Secondary type: labels, metadata, anything that must recede from [ElyndraInk]. */
+val ElyndraInkMuted = Color(0xFF555555)
+
+/** The one non-accent status color: "connected", "done", healthy. */
+val ElyndraGreen = Color(0xFF9BD494)
 
 val ElyndraErrorRed = Color(0xFFBA1A1A)
 val ElyndraOnErrorRed = Color(0xFFFFFFFF)
 val ElyndraErrorContainer = Color(0xFFFFDAD6)
 val ElyndraOnErrorContainer = Color(0xFF410002)
 
-// Light scheme surfaces
-val ElyndraBackgroundLight = Color(0xFFFFFBFF)
-val ElyndraOnBackgroundLight = Color(0xFF1C1B1F)
-val ElyndraSurfaceLight = Color(0xFFFFFBFF)
-val ElyndraOnSurfaceLight = Color(0xFF1C1B1F)
-val ElyndraSurfaceVariantLight = Color(0xFFE7E0EB)
-val ElyndraOnSurfaceVariantLight = Color(0xFF49454E)
-val ElyndraOutlineLight = Color(0xFF7A757F)
+/**
+ * Surfaces derived from [ElyndraPaper]. The shell layers glass over artwork
+ * rather than stacking opaque Material surfaces, so these stay close together -
+ * they are the fallback for stock M3 components, not the main visual language.
+ */
+val ElyndraSurface = Color(0xFFFFFFFF)
+val ElyndraSurfaceVariant = Color(0xFFE7EAEC)
+val ElyndraOutline = Color(0x24333333)
 
-// Dark scheme surfaces
-val ElyndraBackgroundDark = Color(0xFF121016)
-val ElyndraOnBackgroundDark = Color(0xFFE6E1E6)
-val ElyndraSurfaceDark = Color(0xFF141218)
-val ElyndraOnSurfaceDark = Color(0xFFE6E1E6)
-val ElyndraSurfaceVariantDark = Color(0xFF49454E)
-val ElyndraOnSurfaceVariantDark = Color(0xFFCAC4CF)
-val ElyndraOutlineDark = Color(0xFF948F99)
+/**
+ * The cover-art gradient pairs. A game with no scraped artwork still needs a
+ * tile, and a flat gray one makes a full rail look broken - so each title is
+ * hashed onto one of these pairs and keeps it for good.
+ */
+val ArtworkPairs: List<Pair<Color, Color>> = listOf(
+    Color(0xFFF59659) to Color(0xFFE26D19),
+    Color(0xFFEE7E28) to Color(0xFF333333),
+    Color(0xFF9BD494) to Color(0xFFEE7E28),
+    Color(0xFF84B6F7) to Color(0xFF2C63C8),
+    Color(0xFFC2A6F2) to Color(0xFF7343CE),
+    Color(0xFFF79BA8) to Color(0xFFD33F5B),
+    Color(0xFF8CD9D3) to Color(0xFF1E9A93),
+    Color(0xFFF3CE7A) to Color(0xFFC08A12),
+    Color(0xFF9BD494) to Color(0xFF333333),
+    Color(0xFFF5A3D6) to Color(0xFFC02E9B),
+    Color(0xFF555555) to Color(0xFF333333),
+    Color(0xFFF59659) to Color(0xFF9BD494),
+)
+
+/**
+ * Picks a stable artwork pair for [key]. `hashCode` would work but is not
+ * specified to be stable across JVM versions; this is, so a game's tile color
+ * survives an app update.
+ */
+fun artworkPairFor(key: String): Pair<Color, Color> {
+    var h = 0
+    for (ch in key) h = (h * 31 + ch.code) and 0x7FFFFFFF
+    return ArtworkPairs[h % ArtworkPairs.size]
+}
